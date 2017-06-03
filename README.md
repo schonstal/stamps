@@ -1,6 +1,4 @@
-Yokai Nights
-============
+STAMPS
+======
 
-A game made for Ludum Dare 38
-
-![](screenshots/gameplay.gif)
+A game made for kusojam
