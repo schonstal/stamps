@@ -11,9 +11,13 @@ class Background extends FlxSpriteGroup {
   public function new():Void {
     super();
 
-    background = new FlxSprite();
-    background.loadGraphic("assets/images/backgrounds/red.png");
-    add(background);
+    var backgroundPaths:Array<String> = PathHelper.imagesForPath(~/images\/backgrounds/i);
+
+    for (path in backgroundPaths) {
+      background = new FlxSprite();
+      background.loadGraphic(path);
+      add(background);
+    }
   }
 
   public override function update(elapsed:Float):Void {
