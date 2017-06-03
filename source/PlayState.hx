@@ -15,18 +15,29 @@ class PlayState extends FlxState {
   var pointGroup:FlxSpriteGroup;
   var background:Background;
   var hud:HUD;
+  var canvas:Canvas;
 
   override public function create():Void {
     super.create();
     Reg.random = new FlxRandom();
     Reg.score = 0;
 
+    registerServices();
+
     background = new Background();
+    canvas = new Canvas();
+    Reg.canvas = canvas;
     hud = new HUD();
 
     add(background);
+    add(canvas);
     // add(pointGroup);
     // add(hud);
+    FlxG.mouse.visible = false;
+
+    Reg.stamp = new FlxSprite();
+    Reg.stamp.makeGraphic(8, 8, 0xff33ff33);
+    add(Reg.stamp);
   }
 
   private function registerServices():Void {
@@ -39,7 +50,14 @@ class PlayState extends FlxState {
   }
 
   override public function update(elapsed:Float):Void {
+    Reg.stamp.x = FlxG.mouse.x;
+    Reg.stamp.y = FlxG.mouse.y;
+
     super.update(elapsed);
+
+    if (FlxG.keys.justPressed.SPACE) {
+      canvas.clear();
+    }
 
     recordHighScores();
   }
