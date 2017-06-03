@@ -32,7 +32,7 @@ class PlayState extends FlxState {
     add(background);
     add(canvas);
     // add(pointGroup);
-    // add(hud);
+    add(hud);
     FlxG.mouse.visible = false;
 
     Reg.stamp = new FlxSprite();

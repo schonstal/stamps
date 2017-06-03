@@ -9,6 +9,7 @@ import flixel.math.FlxPoint;
 
 class HUD extends FlxSpriteGroup {
   var scoreText:FlxBitmapText;
+  var toolbar:FlxSprite;
 
   public function new():Void {
     super();
@@ -24,6 +25,11 @@ class HUD extends FlxSpriteGroup {
     scoreText.x = 4;
     scoreText.y = 4;
     add(scoreText);
+
+    toolbar = new FlxSprite();
+    toolbar.y = FlxG.height - 64;
+    toolbar.loadGraphic("assets/images/ui/toolbars.png", true, 640, 64);
+    add(toolbar);
   }
 
   public override function update(elapsed:Float):Void {
