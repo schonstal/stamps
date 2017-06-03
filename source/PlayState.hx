@@ -25,7 +25,7 @@ class PlayState extends FlxState {
     hud = new HUD();
 
     add(background);
-    add(pointGroup);
+    //add(pointGroup);
     add(hud);
   }
 
