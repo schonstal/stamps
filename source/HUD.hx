@@ -7,6 +7,9 @@ import flixel.graphics.frames.FlxBitmapFont;
 import flixel.text.FlxBitmapText;
 import flixel.math.FlxPoint;
 
+import flixel.tweens.FlxTween;
+import flixel.tweens.FlxEase;
+
 class HUD extends FlxSpriteGroup {
   var scoreText:FlxBitmapText;
   var toolbar:FlxSprite;
@@ -29,11 +32,28 @@ class HUD extends FlxSpriteGroup {
     toolbar = new FlxSprite();
     toolbar.y = FlxG.height - 64;
     toolbar.loadGraphic("assets/images/ui/toolbars.png", true, 640, 64);
+    toolbar.animation.add("wiggle", [0, 1, 2], 8, true);
+    toolbar.animation.play("wiggle");
+    add(toolbar);
+
+    toolbar = new FlxSprite();
+    toolbar.angle = 180;
+    toolbar.y = -40;
+    toolbar.loadGraphic("assets/images/ui/toolbars.png", true, 640, 64);
+    toolbar.animation.add("wiggle", [2, 1, 0], 8, true);
+    toolbar.animation.play("wiggle");
     add(toolbar);
   }
 
   public override function update(elapsed:Float):Void {
     scoreText.text = "" + Reg.score;
+
+
+    if (FlxG.mouse.y < 24) {
+      FlxTween.tween(toolbar, { y: 0 }, 0.25, { ease: FlxEase.quadOut });
+    } else {
+      FlxTween.tween(toolbar, { y: -40 }, 0.25, { ease: FlxEase.quadOut });
+    }
 
     super.update(elapsed);
   }
