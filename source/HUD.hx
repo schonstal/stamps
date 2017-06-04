@@ -42,7 +42,7 @@ class HUD extends FlxSpriteGroup {
     scoreText.text = "0";
     scoreText.x = 4;
     scoreText.y = 4;
-    add(scoreText);
+    // add(scoreText);
   }
 
   public override function update(elapsed:Float):Void {

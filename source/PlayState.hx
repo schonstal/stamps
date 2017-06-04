@@ -31,7 +31,7 @@ class PlayState extends FlxState {
 
     add(background);
     add(canvas);
-    add(pointGroup);
+    // add(pointGroup);
     add(hud);
     FlxG.mouse.visible = false;
 
