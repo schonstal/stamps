@@ -31,7 +31,7 @@ class PlayState extends FlxState {
 
     add(background);
     add(canvas);
-    // add(pointGroup);
+    add(pointGroup);
     add(hud);
     FlxG.mouse.visible = false;
 
@@ -57,6 +57,12 @@ class PlayState extends FlxState {
 
     if (FlxG.keys.justPressed.SPACE) {
       canvas.clear();
+    }
+
+    if (FlxG.mouse.justReleased) {
+      var points:Int = Reg.random.int(2, 10) * 50;
+      Reg.score += points;
+      Reg.pointService.showPoints(Reg.stamp.x, Reg.stamp.y, points, 0xffaa22cc);
     }
 
     recordHighScores();

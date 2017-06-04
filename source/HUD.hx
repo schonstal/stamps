@@ -22,13 +22,6 @@ class HUD extends FlxSpriteGroup {
       new FlxPoint(16, 16)
     );
 
-    scoreText = new FlxBitmapText(font);
-    scoreText.letterSpacing = -2;
-    scoreText.text = "0";
-    scoreText.x = 4;
-    scoreText.y = 4;
-    add(scoreText);
-
     toolbar = new FlxSprite();
     toolbar.y = FlxG.height - 64;
     toolbar.loadGraphic("assets/images/ui/toolbars.png", true, 640, 64);
@@ -43,6 +36,13 @@ class HUD extends FlxSpriteGroup {
     toolbar.animation.add("wiggle", [2, 1, 0], 8, true);
     toolbar.animation.play("wiggle");
     add(toolbar);
+
+    scoreText = new FlxBitmapText(font);
+    scoreText.letterSpacing = -2;
+    scoreText.text = "0";
+    scoreText.x = 4;
+    scoreText.y = 4;
+    add(scoreText);
   }
 
   public override function update(elapsed:Float):Void {
