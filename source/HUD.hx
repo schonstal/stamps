@@ -75,5 +75,13 @@ class HUD extends FlxSpriteGroup {
     }
 
     super.update(elapsed);
+
+    if (FlxG.mouse.y > FlxG.height - 74) {
+      FlxG.mouse.visible = true;
+      Reg.stamp.visible = false;
+    } else {
+      FlxG.mouse.visible = false;
+      Reg.stamp.visible = true;
+    }
   }
 }

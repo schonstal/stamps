@@ -33,7 +33,8 @@ class PlayState extends FlxState {
     add(canvas);
     // add(pointGroup);
     add(hud);
-    FlxG.mouse.visible = false;
+
+    FlxG.mouse.load("assets/images/ui/pointer.png");
 
     Reg.stamp = new FlxSprite();
     Reg.stamp.makeGraphic(8, 8, 0xff33ff33);
