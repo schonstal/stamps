@@ -48,11 +48,8 @@ class HUD extends FlxSpriteGroup {
     thumbnailGroup = new FlxSpriteGroup();
 
     for (i in 0...6) {
-      var thumbnail = new ThumbnailFrame();
-      thumbnail.x = 68 + (i * (thumbnail.width + 25));
-      thumbnail.y = FlxG.height - thumbnail.height;
-      thumbnail.appear();
-
+      var thumbnail = new FlxSprite();
+      thumbnail.loadGraphic("asssets/images/thumbnail.png", true, 64, 64);
       thumbnailGroup.add(thumbnail);
     }
 
@@ -67,12 +64,6 @@ class HUD extends FlxSpriteGroup {
       FlxTween.tween(toolbar, { y: 0 }, 0.25, { ease: FlxEase.quadOut });
     } else {
       FlxTween.tween(toolbar, { y: -40 }, 0.25, { ease: FlxEase.quadOut });
-    }
-
-    if (FlxG.keys.justPressed.SPACE) {
-      for (thumbnail in thumbnailGroup.members) {
-        cast(thumbnail, ThumbnailFrame).appear();
-      }
     }
 
     super.update(elapsed);
