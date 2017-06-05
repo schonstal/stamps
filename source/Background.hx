@@ -13,7 +13,7 @@ class Background extends FlxSpriteGroup {
   public function new():Void {
     super();
 
-    var backgroundPaths:Array<String> = PathHelper.imagesForPath(~/images\/backgrounds/i);
+    var backgroundPaths:Array<String> = PathHelper.imagesForPath(~/images\/backgrounds\/[^\/]+.png/i);
 
     for (path in backgroundPaths) {
       background = new FlxSprite();

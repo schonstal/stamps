@@ -15,6 +15,9 @@ class HUD extends FlxSpriteGroup {
   var toolbar:FlxSprite;
   var thumbnailGroup:FlxSpriteGroup;
 
+  var mode:String = "background";
+  var index:Int = 0;
+
   public function new():Void {
     super();
     var font = FlxBitmapFont.fromMonospace(
@@ -47,13 +50,19 @@ class HUD extends FlxSpriteGroup {
 
     thumbnailGroup = new FlxSpriteGroup();
 
-    for (i in 0...6) {
-      var thumbnail = new ThumbnailFrame();
-      thumbnail.x = 68 + (i * (thumbnail.width + 25));
+    var backgroundThumbnails:Array<String> = PathHelper.imagesForPath(~/images\/backgrounds\/thumbs/);
+    var i = 0;
+    for (thumbnailPath in backgroundThumbnails) {
+      var thumbnail = new ThumbnailFrame(thumbnailPath);
+      thumbnail.x = 68 + ((i%6) * (thumbnail.width + 25));
       thumbnail.y = FlxG.height - thumbnail.height;
-      thumbnail.appear();
 
       thumbnailGroup.add(thumbnail);
+      i++;
+    }
+
+    for (i in 0...6) {
+      cast(thumbnailGroup.members[i], ThumbnailFrame).appear();
     }
 
     add(thumbnailGroup);

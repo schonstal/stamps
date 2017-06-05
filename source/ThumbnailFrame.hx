@@ -20,7 +20,14 @@ class ThumbnailFrame extends FlxSpriteGroup {
   var thumbSpriteMask:FlxSprite;
   var thumbOutput:FlxSprite;
 
-  public function new():Void {
+  var sinAmt:Float;
+
+  var frameScaleTween:FlxTween;
+  var frameAngleTween:FlxTween;
+  var thumbScaleTween:FlxTween;
+  var thumbAngleTween:FlxTween;
+
+  public function new(thumbnailPath:String):Void {
     super(0, 0);
 
     var frames = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
@@ -31,7 +38,7 @@ class ThumbnailFrame extends FlxSpriteGroup {
     thumbOutput.makeGraphic(640, 64, 0, true);
 
     thumbSprite = new FlxSprite();
-    thumbSprite.loadGraphic("assets/images/backgrounds/thumbs/blue.png");
+    thumbSprite.loadGraphic(thumbnailPath);
 
     thumbSpriteMask = new FlxSprite();
     thumbSpriteMask.loadGraphic("assets/images/ui/toolBordersMask.png");
@@ -71,15 +78,28 @@ class ThumbnailFrame extends FlxSpriteGroup {
     thumbSprite.angle = 45;
 
     new FlxTimer().start(Reg.random.float(0, 0.25), function(t):Void {
-      FlxTween.tween(frameSprite.scale, { x: 1, y: 1 }, 0.5, { ease: FlxEase.elasticOut });
-      FlxTween.tween(frameSprite, { angle: 0 }, 0.5, { ease: FlxEase.elasticOut });
+      frameScaleTween = FlxTween.tween(frameSprite.scale, { x: 1, y: 1 }, 0.5, { ease: FlxEase.elasticOut });
+      frameAngleTween = FlxTween.tween(frameSprite, { angle: 0 }, 0.5, { ease: FlxEase.elasticOut });
 
-      FlxTween.tween(thumbSprite.scale, { x: 1, y: 1 }, 0.5, { ease: FlxEase.elasticOut });
-      FlxTween.tween(thumbSprite, { angle: 0 }, 0.5, { ease: FlxEase.elasticOut });
+      thumbScaleTween = FlxTween.tween(thumbSprite.scale, { x: 1, y: 1 }, 0.5, { ease: FlxEase.elasticOut });
+      thumbAngleTween = FlxTween.tween(thumbSprite, { angle: 0 }, 0.5, { ease: FlxEase.elasticOut });
     });
   }
 
   public override function update(elapsed:Float):Void {
     super.update(elapsed);
+
+    if (frameScaleTween == null || !frameScaleTween.finished) { return; }
+
+    sinAmt += 7 * elapsed;
+
+    if (FlxG.mouse.x > x && FlxG.mouse.x < x + width &&
+        FlxG.mouse.y > y && FlxG.mouse.y < y + height) {
+      angle = 20 * Math.sin(sinAmt);
+      scale.y = scale.x = 1 + (Math.cos(sinAmt) * 0.3);
+    } else {
+      angle = 0;
+      scale.x = scale.y = 1;
+    }
   }
 }
