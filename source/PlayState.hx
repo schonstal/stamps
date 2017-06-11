@@ -40,7 +40,7 @@ class PlayState extends FlxState {
     Reg.stamp.makeGraphic(8, 8, 0xff33ff33);
     add(Reg.stamp);
 
-    FlxG.sound.playMusic("assets/music/music.ogg");
+    //FlxG.sound.playMusic("assets/music/music.ogg");
   }
 
   private function registerServices():Void {
