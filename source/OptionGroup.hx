@@ -11,7 +11,7 @@ import flixel.tweens.FlxTween;
 import flixel.tweens.FlxEase;
 
 class OptionGroup extends FlxSpriteGroup {
-  public function new(thumbnailPaths:Array<String>):Void {
+  public function new(thumbnailPaths:Array<String>, targetSprite:FlxSprite):Void {
     super();
 
     var i = 0;
@@ -22,7 +22,7 @@ class OptionGroup extends FlxSpriteGroup {
       thumbnail.x = 68 + ((i%6) * (thumbnail.width + 25));
       thumbnail.y = FlxG.height - thumbnail.height;
       thumbnail.clickCallback = function():Void {
-        Reg.background.loadGraphic(regex.replace(thumbnailPath, ""));
+        targetSprite.loadGraphic(regex.replace(thumbnailPath, ""));
       }
 
       add(thumbnail);

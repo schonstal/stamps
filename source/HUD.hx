@@ -49,7 +49,7 @@ class HUD extends FlxSpriteGroup {
     // add(scoreText);
 
     var thumbnailPaths:Array<String> = PathHelper.imagesForPath(~/images\/backgrounds\/thumbs/);
-    thumbnailGroup = new OptionGroup(thumbnailPaths.slice(0, 6));
+    thumbnailGroup = new OptionGroup(thumbnailPaths.slice(0, 6), Reg.background);
     thumbnailGroup.appear();
     add(thumbnailGroup);
   }
