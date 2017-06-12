@@ -10,8 +10,5 @@ class Reg {
   public static var score:Int;
   public static var canvas:Canvas;
   public static var stamp:FlxSprite;
-
-  public static var selectedBackground:String;
-  public static var selectedStamp:String;
-  public static var selectedBrush:String;
+  public static var background:FlxSprite;
 }

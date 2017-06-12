@@ -15,10 +15,15 @@ class OptionGroup extends FlxSpriteGroup {
     super();
 
     var i = 0;
+    var regex = ~/thumbs\//;
+
     for (thumbnailPath in thumbnailPaths) {
       var thumbnail = new ThumbnailFrame(thumbnailPath);
       thumbnail.x = 68 + ((i%6) * (thumbnail.width + 25));
       thumbnail.y = FlxG.height - thumbnail.height;
+      thumbnail.clickCallback = function():Void {
+        Reg.background.loadGraphic(regex.replace(thumbnailPath, ""));
+      }
 
       add(thumbnail);
 

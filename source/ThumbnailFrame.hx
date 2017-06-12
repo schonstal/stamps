@@ -15,6 +15,8 @@ import flixel.util.FlxTimer;
 import flixel.util.FlxSpriteUtil;
 
 class ThumbnailFrame extends FlxSpriteGroup {
+  public var clickCallback:Void->Void;
+
   var frameSprite:FlxSprite;
   var thumbSprite:FlxSprite;
   var thumbSpriteMask:FlxSprite;
@@ -97,6 +99,9 @@ class ThumbnailFrame extends FlxSpriteGroup {
         FlxG.mouse.y > y && FlxG.mouse.y < y + height) {
       angle = 20 * Math.sin(sinAmt);
       scale.y = scale.x = 1 + (Math.cos(sinAmt) * 0.3);
+      if (FlxG.mouse.justPressed && clickCallback != null) {
+        clickCallback();
+      }
     } else {
       angle = 0;
       scale.x = scale.y = 1;

@@ -13,7 +13,6 @@ import flixel.tweens.FlxEase;
 
 class PlayState extends FlxState {
   var pointGroup:FlxSpriteGroup;
-  var background:Background;
   var hud:HUD;
   var canvas:Canvas;
 
@@ -24,12 +23,13 @@ class PlayState extends FlxState {
 
     registerServices();
 
-    background = new Background();
+    Reg.background = new FlxSprite();
+    Reg.background.loadGraphic(PathHelper.imagesForPath(~/images\/backgrounds\/[^\/]+.png/i)[0]);
     canvas = new Canvas();
     Reg.canvas = canvas;
     hud = new HUD();
 
-    add(background);
+    add(Reg.background);
     add(canvas);
     // add(pointGroup);
     add(hud);
