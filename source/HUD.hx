@@ -13,7 +13,7 @@ import flixel.tweens.FlxEase;
 class HUD extends FlxSpriteGroup {
   var scoreText:FlxBitmapText;
   var toolbar:FlxSprite;
-  var thumbnailGroup:FlxSpriteGroup;
+  var thumbnailGroup:OptionGroup;
 
   var mode:String = "background";
   var index:Int = 0;
@@ -48,23 +48,9 @@ class HUD extends FlxSpriteGroup {
     scoreText.y = 4;
     // add(scoreText);
 
-    thumbnailGroup = new FlxSpriteGroup();
-
-    var backgroundThumbnails:Array<String> = PathHelper.imagesForPath(~/images\/backgrounds\/thumbs/);
-    var i = 0;
-    for (thumbnailPath in backgroundThumbnails) {
-      var thumbnail = new ThumbnailFrame(thumbnailPath);
-      thumbnail.x = 68 + ((i%6) * (thumbnail.width + 25));
-      thumbnail.y = FlxG.height - thumbnail.height;
-
-      thumbnailGroup.add(thumbnail);
-      i++;
-    }
-
-    for (i in 0...6) {
-      cast(thumbnailGroup.members[i], ThumbnailFrame).appear();
-    }
-
+    var thumbnailPaths:Array<String> = PathHelper.imagesForPath(~/images\/backgrounds\/thumbs/);
+    thumbnailGroup = new OptionGroup(thumbnailPaths.slice(0, 6));
+    thumbnailGroup.appear();
     add(thumbnailGroup);
   }
 
@@ -75,12 +61,6 @@ class HUD extends FlxSpriteGroup {
       FlxTween.tween(toolbar, { y: 0 }, 0.25, { ease: FlxEase.quadOut });
     } else {
       FlxTween.tween(toolbar, { y: -40 }, 0.25, { ease: FlxEase.quadOut });
-    }
-
-    if (FlxG.keys.justPressed.SPACE) {
-      for (thumbnail in thumbnailGroup.members) {
-        cast(thumbnail, ThumbnailFrame).appear();
-      }
     }
 
     super.update(elapsed);
