@@ -9,6 +9,9 @@ class Reg {
   public static var random:FlxRandom;
   public static var score:Int;
   public static var canvas:Canvas;
+
   public static var stamp:FlxSprite;
   public static var background:FlxSprite;
+
+  public static var continuous:Bool = true;
 }

@@ -37,7 +37,8 @@ class PlayState extends FlxState {
     FlxG.mouse.load("assets/images/ui/pointer.png");
 
     Reg.stamp = new FlxSprite();
-    Reg.stamp.makeGraphic(8, 8, 0xff33ff33);
+    //Reg.stamp.makeGraphic(8, 8, 0xff33ff33);
+    Reg.stamp.loadGraphic("assets/images/stamps/barkley128.png");
     add(Reg.stamp);
 
     //FlxG.sound.playMusic("assets/music/music.ogg");
@@ -77,6 +78,10 @@ class PlayState extends FlxState {
     }
     if (Reg.score > FlxG.save.data.highScore) {
       FlxG.save.data.highScore = Reg.score;
+    }
+
+    if (FlxG.keys.justPressed.Q) {
+      Reg.continuous = !Reg.continuous;
     }
   }
 }

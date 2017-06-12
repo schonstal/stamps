@@ -20,7 +20,7 @@ class Canvas extends FlxSprite {
   public override function update(elapsed:Float):Void {
     super.update(elapsed);
 
-    if (FlxG.mouse.pressed && Reg.stamp != null) {
+    if (FlxG.mouse.pressed && Reg.stamp != null && Reg.continuous) {
       stamp(Reg.stamp, Std.int(Reg.stamp.x), Std.int(Reg.stamp.y));
 
       if(wasPainting == true) {
@@ -42,6 +42,10 @@ class Canvas extends FlxSprite {
       wasPainting = true;
     } else {
       wasPainting = false;
+    }
+
+    if (FlxG.mouse.justPressed && Reg.stamp != null && !Reg.continuous) {
+      stamp(Reg.stamp, Std.int(Reg.stamp.x), Std.int(Reg.stamp.y));
     }
 
     lastPosition.x = Reg.stamp.x;
