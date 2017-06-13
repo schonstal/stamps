@@ -52,6 +52,11 @@ class HUD extends FlxSpriteGroup {
     thumbnailGroup = new OptionGroup(thumbnailPaths.slice(0, 6), Reg.background);
     thumbnailGroup.appear();
     add(thumbnailGroup);
+
+    thumbnailPaths = PathHelper.imagesForPath(~/images\/stamps\/thumbs/);
+    thumbnailGroup = new OptionGroup(thumbnailPaths, Reg.stamp);
+    thumbnailGroup.appear();
+    add(thumbnailGroup);
   }
 
   public override function update(elapsed:Float):Void {

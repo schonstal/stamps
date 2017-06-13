@@ -37,7 +37,7 @@ class ThumbnailFrame extends FlxSpriteGroup {
     var frames = frames.slice(0, 3);
 
     thumbOutput = new FlxSprite();
-    thumbOutput.makeGraphic(640, 64, 0, true);
+    thumbOutput.makeGraphic(640, 64, 0xffffffff, true);
 
     thumbSprite = new FlxSprite();
     thumbSprite.loadGraphic(thumbnailPath);

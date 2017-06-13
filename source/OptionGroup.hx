@@ -33,7 +33,9 @@ class OptionGroup extends FlxSpriteGroup {
 
   public function appear():Void {
     for (i in 0...6) {
-      cast(members[i], ThumbnailFrame).appear();
+      if (members[i] != null) {
+        cast(members[i], ThumbnailFrame).appear();
+      }
     }
   }
 }
