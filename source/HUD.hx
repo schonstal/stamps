@@ -2,6 +2,7 @@ package;
 
 import flixel.FlxG;
 import flixel.FlxSprite;
+import flixel.group.FlxGroup;
 import flixel.group.FlxSpriteGroup;
 import flixel.graphics.frames.FlxBitmapFont;
 import flixel.text.FlxBitmapText;
@@ -10,13 +11,20 @@ import flixel.math.FlxPoint;
 import flixel.tweens.FlxTween;
 import flixel.tweens.FlxEase;
 
-class HUD extends FlxSpriteGroup {
+class HUD extends FlxGroup {
   var scoreText:FlxBitmapText;
   var toolbar:FlxSprite;
+  var bankBar:FlxSprite;
   var thumbnailGroup:OptionGroup;
 
   var mode:String = "background";
   var index:Int = 0;
+
+  var stampBank:OptionBank;
+  var brushBank:OptionBank;
+  var backgroundBank:OptionBank;
+
+  var icons:FlxSpriteGroup;
 
   public function new():Void {
     super();
@@ -26,12 +34,12 @@ class HUD extends FlxSpriteGroup {
       new FlxPoint(16, 16)
     );
 
-    toolbar = new FlxSprite();
-    toolbar.y = FlxG.height - 74;
-    toolbar.loadGraphic("assets/images/ui/toolbars.png", true, 640, 74);
-    toolbar.animation.add("wiggle", [0, 1, 2], 8, true);
-    toolbar.animation.play("wiggle");
-    add(toolbar);
+    bankBar = new FlxSprite();
+    bankBar.y = FlxG.height - 74;
+    bankBar.loadGraphic("assets/images/ui/toolbars.png", true, 640, 74);
+    bankBar.animation.add("wiggle", [0, 1, 2], 8, true);
+    bankBar.animation.play("wiggle");
+    add(bankBar);
 
     toolbar = new FlxSprite();
     toolbar.angle = 180;
@@ -48,15 +56,8 @@ class HUD extends FlxSpriteGroup {
     scoreText.y = 4;
     // add(scoreText);
 
-    var thumbnailPaths:Array<String> = PathHelper.imagesForPath(~/images\/backgrounds\/thumbs/);
-    thumbnailGroup = new OptionGroup(thumbnailPaths.slice(0, 6), Reg.background);
-    thumbnailGroup.appear();
-    add(thumbnailGroup);
-
-    thumbnailPaths = PathHelper.imagesForPath(~/images\/stamps\/thumbs/);
-    thumbnailGroup = new OptionGroup(thumbnailPaths, Reg.stamp);
-    thumbnailGroup.appear();
-    add(thumbnailGroup);
+    createIcons();
+    createBanks();
   }
 
   public override function update(elapsed:Float):Void {
@@ -70,12 +71,84 @@ class HUD extends FlxSpriteGroup {
 
     super.update(elapsed);
 
-    if (FlxG.mouse.y > FlxG.height - 74) {
-      FlxG.mouse.visible = true;
+    icons.y = toolbar.y;
+
+    if (FlxG.mouse.y > bankBar.y || FlxG.mouse.y < toolbar.y + toolbar.height) {
       Reg.stamp.visible = false;
     } else {
-      FlxG.mouse.visible = false;
       Reg.stamp.visible = true;
     }
+  }
+
+  private function createBanks():Void {
+    backgroundBank = new OptionBank();
+    stampBank = new OptionBank();
+    brushBank = new OptionBank();
+
+    var thumbnailPaths:Array<String> = PathHelper.imagesForPath(~/images\/backgrounds\/thumbs/);
+    thumbnailGroup = new OptionGroup(
+      thumbnailPaths.slice(0, 6),
+      "background",
+      FlxG.height - 68
+    );
+    backgroundBank.add(thumbnailGroup);
+
+    thumbnailPaths = PathHelper.imagesForPath(~/images\/stamps\/thumbs/);
+    thumbnailGroup = new OptionGroup(
+      thumbnailPaths,
+      "stamp",
+      FlxG.height - 68
+    );
+    stampBank.add(thumbnailGroup);
+
+    thumbnailPaths = PathHelper.imagesForPath(~/images\/palette\/thumbs/);
+    thumbnailGroup = new OptionGroup(
+      thumbnailPaths,
+      "stamp",
+      FlxG.height - 68
+    );
+    brushBank.add(thumbnailGroup);
+
+    add(backgroundBank);
+    add(brushBank);
+    add(stampBank);
+  }
+
+  private function createIcons():Void {
+    icons = new FlxSpriteGroup();
+
+    var thumbnail:ThumbnailFrame = new ThumbnailFrame("assets/images/ui/icons/bg.png");
+    thumbnail.x = 68;
+    thumbnail.clickCallback = function():Void {
+      stampBank.hide();
+      brushBank.hide();
+      backgroundBank.show();
+    }
+    thumbnail.appear();
+    icons.add(thumbnail);
+
+    thumbnail = new ThumbnailFrame("assets/images/ui/icons/pencil.png");
+    thumbnail.x = 157;
+    thumbnail.clickCallback = function():Void {
+      stampBank.hide();
+      brushBank.show();
+      backgroundBank.hide();
+      Reg.continuous = true;
+    }
+    thumbnail.appear();
+    icons.add(thumbnail);
+
+    thumbnail = new ThumbnailFrame("assets/images/ui/icons/stamp.png");
+    thumbnail.x = 246;
+    thumbnail.clickCallback = function():Void {
+      stampBank.show();
+      brushBank.hide();
+      backgroundBank.hide();
+      Reg.continuous = false;
+    }
+    thumbnail.appear();
+    icons.add(thumbnail);
+
+    add(icons);
   }
 }

@@ -15,9 +15,15 @@ class OptionBank extends FlxGroup {
     super();
   }
 
-  public function appear():Void {
+  public function show():Void {
     for (member in members) {
       cast(member, OptionGroup).appear();
+    }
+  }
+
+  public function hide():Void {
+    for (member in members) {
+      cast(member, OptionGroup).disappear();
     }
   }
 }

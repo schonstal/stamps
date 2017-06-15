@@ -54,8 +54,8 @@ class PlayState extends FlxState {
   }
 
   override public function update(elapsed:Float):Void {
-    Reg.stamp.x = FlxG.mouse.x;
-    Reg.stamp.y = FlxG.mouse.y;
+    Reg.stamp.x = FlxG.mouse.x - Reg.stamp.width / 2;
+    Reg.stamp.y = FlxG.mouse.y - Reg.stamp.height / 2;
 
     super.update(elapsed);
 
@@ -78,10 +78,6 @@ class PlayState extends FlxState {
     }
     if (Reg.score > FlxG.save.data.highScore) {
       FlxG.save.data.highScore = Reg.score;
-    }
-
-    if (FlxG.keys.justPressed.Q) {
-      Reg.continuous = !Reg.continuous;
     }
   }
 }

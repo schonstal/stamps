@@ -10,8 +10,8 @@ import flixel.math.FlxPoint;
 import flixel.tweens.FlxTween;
 import flixel.tweens.FlxEase;
 
-class OptionGroup extends FlxSpriteGroup {
-  public function new(thumbnailPaths:Array<String>, type:String, Y:Float = 0):Void {
+class TopToolbar extends FlxSpriteGroup {
+  public function new(thumbnailPaths:Array<String>, targetSprite:FlxSprite, Y:Float = 0):Void {
     super(0, Y);
 
     var i = 0;
@@ -21,14 +21,7 @@ class OptionGroup extends FlxSpriteGroup {
       var thumbnail = new ThumbnailFrame(thumbnailPath);
       thumbnail.x = 68 + ((i%6) * (thumbnail.width + 25));
       thumbnail.clickCallback = function():Void {
-        var path = regex.replace(thumbnailPath, "");
-
-        // Avoiding reflection if possible
-        if (type == "background") {
-          Reg.background.loadGraphic(path);
-        } else {
-          Reg.stamp.loadGraphic(path);
-        }
+        targetSprite.loadGraphic(regex.replace(thumbnailPath, ""));
       }
 
       add(thumbnail);
@@ -41,14 +34,6 @@ class OptionGroup extends FlxSpriteGroup {
     for (i in 0...6) {
       if (members[i] != null) {
         cast(members[i], ThumbnailFrame).appear();
-      }
-    }
-  }
-
-  public function disappear():Void {
-    for (i in 0...6) {
-      if (members[i] != null) {
-        cast(members[i], ThumbnailFrame).disappear();
       }
     }
   }

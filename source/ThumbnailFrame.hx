@@ -71,10 +71,12 @@ class ThumbnailFrame extends FlxSpriteGroup {
   }
 
   public function appear():Void {
+    frameSprite.visible = true;
     frameSprite.scale.x = 0;
     frameSprite.scale.y = 0;
     frameSprite.angle = 45;
 
+    thumbSprite.visible = true;
     thumbSprite.scale.x = 0;
     thumbSprite.scale.y = 0;
     thumbSprite.angle = 45;
@@ -88,10 +90,15 @@ class ThumbnailFrame extends FlxSpriteGroup {
     });
   }
 
+  public function disappear():Void {
+    frameSprite.visible = false;
+    thumbSprite.visible = false;
+  }
+
   public override function update(elapsed:Float):Void {
     super.update(elapsed);
 
-    if (frameScaleTween == null || !frameScaleTween.finished) { return; }
+    if (frameScaleTween == null || !frameScaleTween.finished || !visible) { return; }
 
     sinAmt += 7 * elapsed;
 
@@ -99,7 +106,7 @@ class ThumbnailFrame extends FlxSpriteGroup {
         FlxG.mouse.y > y && FlxG.mouse.y < y + height) {
       angle = 20 * Math.sin(sinAmt);
       scale.y = scale.x = 1 + (Math.cos(sinAmt) * 0.3);
-      if (FlxG.mouse.justPressed && clickCallback != null) {
+      if (FlxG.mouse.justPressed && clickCallback != null && visible) {
         clickCallback();
       }
     } else {
