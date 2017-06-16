@@ -23,6 +23,10 @@ class PlayState extends FlxState {
 
     registerServices();
 
+    Reg.stamp = new FlxSprite();
+    //Reg.stamp.makeGraphic(8, 8, 0xff33ff33);
+    Reg.stamp.loadGraphic("assets/images/stamps/barkley.png");
+
     Reg.background = new FlxSprite();
     Reg.background.loadGraphic(PathHelper.imagesForPath(~/images\/backgrounds\/[^\/]+.png/i)[0]);
     canvas = new Canvas();
@@ -31,15 +35,11 @@ class PlayState extends FlxState {
 
     add(Reg.background);
     add(canvas);
+    add(Reg.stamp);
     // add(pointGroup);
     add(hud);
 
     FlxG.mouse.load("assets/images/ui/pointer.png");
-
-    Reg.stamp = new FlxSprite();
-    //Reg.stamp.makeGraphic(8, 8, 0xff33ff33);
-    Reg.stamp.loadGraphic("assets/images/stamps/barkley128.png");
-    add(Reg.stamp);
 
     //FlxG.sound.playMusic("assets/music/music.ogg");
   }
