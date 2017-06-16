@@ -14,8 +14,11 @@ import flixel.tweens.FlxEase;
 class HUD extends FlxGroup {
   var scoreText:FlxBitmapText;
   var toolbar:FlxSprite;
-  var bankBar:FlxSprite;
+  var bankbar:FlxSprite;
   var thumbnailGroup:OptionGroup;
+
+  var toolbarTweenIn:FlxTween;
+  var toolbarTweenOut:FlxTween;
 
   var mode:String = "background";
   var index:Int = 0;
@@ -34,12 +37,12 @@ class HUD extends FlxGroup {
       new FlxPoint(16, 16)
     );
 
-    bankBar = new FlxSprite();
-    bankBar.y = FlxG.height - 74;
-    bankBar.loadGraphic("assets/images/ui/toolbars.png", true, 640, 74);
-    bankBar.animation.add("wiggle", [0, 1, 2], 8, true);
-    bankBar.animation.play("wiggle");
-    add(bankBar);
+    bankbar = new FlxSprite();
+    bankbar.y = FlxG.height - 74;
+    bankbar.loadGraphic("assets/images/ui/toolbars.png", true, 640, 74);
+    bankbar.animation.add("wiggle", [0, 1, 2], 8, true);
+    bankbar.animation.play("wiggle");
+    add(bankbar);
 
     toolbar = new FlxSprite();
     toolbar.angle = 180;
@@ -63,17 +66,27 @@ class HUD extends FlxGroup {
   public override function update(elapsed:Float):Void {
     scoreText.text = "" + Reg.score;
 
-    if (FlxG.mouse.y < 24) {
-      FlxTween.tween(toolbar, { y: 0 }, 0.25, { ease: FlxEase.quadOut });
+    if (FlxG.mouse.y < toolbar.y + toolbar.height) {
+      if (toolbarTweenIn == null || !toolbarTweenIn.active) {
+        toolbarTweenIn = FlxTween.tween(toolbar, { y: 0 }, 0.25, { ease: FlxEase.quadOut });
+        if (toolbarTweenOut != null && toolbarTweenOut.active) {
+          toolbarTweenOut.cancel();
+        }
+      }
     } else {
-      FlxTween.tween(toolbar, { y: -40 }, 0.25, { ease: FlxEase.quadOut });
+      if (toolbarTweenOut == null || !toolbarTweenOut.active) {
+        toolbarTweenOut = FlxTween.tween(toolbar, { y: -40 }, 0.25, { ease: FlxEase.quadOut });
+        if (toolbarTweenIn != null && toolbarTweenIn.active) {
+          toolbarTweenIn.cancel();
+        }
+      }
     }
 
     super.update(elapsed);
 
     icons.y = toolbar.y;
 
-    if (FlxG.mouse.y > bankBar.y || FlxG.mouse.y < toolbar.y + toolbar.height) {
+    if (FlxG.mouse.y > bankbar.y || FlxG.mouse.y < toolbar.y + toolbar.height) {
       Reg.stamp.visible = false;
     } else {
       Reg.stamp.visible = true;
