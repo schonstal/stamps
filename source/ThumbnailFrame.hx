@@ -71,12 +71,10 @@ class ThumbnailFrame extends FlxSpriteGroup {
   }
 
   public function appear():Void {
-    frameSprite.visible = true;
     frameSprite.scale.x = 0;
     frameSprite.scale.y = 0;
     frameSprite.angle = 45;
 
-    thumbSprite.visible = true;
     thumbSprite.scale.x = 0;
     thumbSprite.scale.y = 0;
     thumbSprite.angle = 45;
@@ -88,11 +86,12 @@ class ThumbnailFrame extends FlxSpriteGroup {
       thumbScaleTween = FlxTween.tween(thumbSprite.scale, { x: 1, y: 1 }, 0.5, { ease: FlxEase.elasticOut });
       thumbAngleTween = FlxTween.tween(thumbSprite, { angle: 0 }, 0.5, { ease: FlxEase.elasticOut });
     });
+
+    visible = true;
   }
 
   public function disappear():Void {
-    frameSprite.visible = false;
-    thumbSprite.visible = false;
+    visible = false;
   }
 
   public override function update(elapsed:Float):Void {
