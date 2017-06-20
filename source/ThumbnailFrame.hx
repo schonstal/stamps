@@ -70,7 +70,7 @@ class ThumbnailFrame extends FlxSpriteGroup {
     frameSprite.angle = 45;
   }
 
-  public function appear():Void {
+  public function appear(delay:Float = 0):Void {
     frameSprite.scale.x = 0;
     frameSprite.scale.y = 0;
     frameSprite.angle = 45;
@@ -79,11 +79,11 @@ class ThumbnailFrame extends FlxSpriteGroup {
     thumbSprite.scale.y = 0;
     thumbSprite.angle = 45;
 
-    frameScaleTween = FlxTween.tween(frameSprite.scale, { x: 1, y: 1 }, 0.5, { ease: FlxEase.elasticOut });
-    frameAngleTween = FlxTween.tween(frameSprite, { angle: 0 }, 0.5, { ease: FlxEase.elasticOut });
+    frameScaleTween = FlxTween.tween(frameSprite.scale, { x: 1, y: 1 }, 0.5, { ease: FlxEase.elasticOut, startDelay: delay });
+    frameAngleTween = FlxTween.tween(frameSprite, { angle: 0 }, 0.5, { ease: FlxEase.elasticOut, startDelay: delay });
 
-    thumbScaleTween = FlxTween.tween(thumbSprite.scale, { x: 1, y: 1 }, 0.5, { ease: FlxEase.elasticOut });
-    thumbAngleTween = FlxTween.tween(thumbSprite, { angle: 0 }, 0.5, { ease: FlxEase.elasticOut });
+    thumbScaleTween = FlxTween.tween(thumbSprite.scale, { x: 1, y: 1 }, 0.5, { ease: FlxEase.elasticOut, startDelay: delay });
+    thumbAngleTween = FlxTween.tween(thumbSprite, { angle: 0 }, 0.5, { ease: FlxEase.elasticOut, startDelay: delay });
 
     visible = true;
   }

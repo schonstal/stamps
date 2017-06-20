@@ -23,9 +23,9 @@ class HUD extends FlxGroup {
   var mode:String = "background";
   var index:Int = 0;
 
-  var stampBank:OptionBank;
-  var brushBank:OptionBank;
-  var backgroundBank:OptionBank;
+  var stampGroup:OptionGroup;
+  var brushGroup:OptionGroup;
+  var backgroundGroup:OptionGroup;
 
   var icons:FlxSpriteGroup;
 
@@ -60,7 +60,7 @@ class HUD extends FlxGroup {
     // add(scoreText);
 
     createIcons();
-    createBanks();
+    createGroups();
   }
 
   public override function update(elapsed:Float):Void {
@@ -93,38 +93,31 @@ class HUD extends FlxGroup {
     }
   }
 
-  private function createBanks():Void {
-    backgroundBank = new OptionBank();
-    stampBank = new OptionBank();
-    brushBank = new OptionBank();
-
+  private function createGroups():Void {
     var thumbnailPaths:Array<String> = PathHelper.imagesForPath(~/images\/backgrounds\/thumbs/);
-    thumbnailGroup = new OptionGroup(
-      thumbnailPaths.slice(0, 6),
+    backgroundGroup = new OptionGroup(
+      thumbnailPaths,
       "background",
       FlxG.height - 68
     );
-    backgroundBank.add(thumbnailGroup);
 
     thumbnailPaths = PathHelper.imagesForPath(~/images\/stamps\/thumbs/);
-    thumbnailGroup = new OptionGroup(
+    stampGroup = new OptionGroup(
       thumbnailPaths,
       "stamp",
       FlxG.height - 68
     );
-    stampBank.add(thumbnailGroup);
 
     thumbnailPaths = PathHelper.imagesForPath(~/images\/palette\/thumbs/);
-    thumbnailGroup = new OptionGroup(
+    brushGroup = new OptionGroup(
       thumbnailPaths,
       "stamp",
       FlxG.height - 68
     );
-    brushBank.add(thumbnailGroup);
 
-    add(backgroundBank);
-    add(brushBank);
-    add(stampBank);
+    add(backgroundGroup);
+    add(brushGroup);
+    add(stampGroup);
   }
 
   private function createIcons():Void {
@@ -133,9 +126,9 @@ class HUD extends FlxGroup {
     var thumbnail:ThumbnailFrame = new ThumbnailFrame("assets/images/ui/icons/bg.png");
     thumbnail.x = 68;
     thumbnail.clickCallback = function():Void {
-      stampBank.hide();
-      brushBank.hide();
-      backgroundBank.show();
+      stampGroup.hide();
+      brushGroup.hide();
+      backgroundGroup.show();
     }
     thumbnail.appear();
     icons.add(thumbnail);
@@ -143,9 +136,9 @@ class HUD extends FlxGroup {
     thumbnail = new ThumbnailFrame("assets/images/ui/icons/pencil.png");
     thumbnail.x = 157;
     thumbnail.clickCallback = function():Void {
-      stampBank.hide();
-      brushBank.show();
-      backgroundBank.hide();
+      stampGroup.hide();
+      brushGroup.show();
+      backgroundGroup.hide();
       Reg.continuous = true;
     }
     thumbnail.appear();
@@ -154,9 +147,9 @@ class HUD extends FlxGroup {
     thumbnail = new ThumbnailFrame("assets/images/ui/icons/stamp.png");
     thumbnail.x = 246;
     thumbnail.clickCallback = function():Void {
-      stampBank.show();
-      brushBank.hide();
-      backgroundBank.hide();
+      stampGroup.show();
+      brushGroup.hide();
+      backgroundGroup.hide();
       Reg.continuous = false;
     }
     thumbnail.appear();
