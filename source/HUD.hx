@@ -162,6 +162,14 @@ class HUD extends FlxGroup {
     thumbnail.appear();
     icons.add(thumbnail);
 
+    thumbnail = new ThumbnailFrame("assets/images/ui/icons/clear.png");
+    thumbnail.x = 335;
+    thumbnail.clickCallback = function():Void {
+      Reg.canvas.clear();
+    }
+    thumbnail.appear();
+    icons.add(thumbnail);
+
     add(icons);
   }
 }

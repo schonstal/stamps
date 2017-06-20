@@ -59,10 +59,6 @@ class PlayState extends FlxState {
 
     super.update(elapsed);
 
-    if (FlxG.keys.justPressed.SPACE) {
-      canvas.clear();
-    }
-
     if (FlxG.mouse.justReleased) {
       var points:Int = Reg.random.int(2, 10) * 50;
       Reg.score += points;
