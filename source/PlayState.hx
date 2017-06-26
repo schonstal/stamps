@@ -41,7 +41,7 @@ class PlayState extends FlxState {
 
     FlxG.mouse.load("assets/images/ui/pointer.png");
 
-    //FlxG.sound.playMusic("assets/music/music.ogg");
+    FlxG.sound.playMusic("assets/music/music.ogg");
   }
 
   private function registerServices():Void {
