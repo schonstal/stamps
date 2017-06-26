@@ -2,6 +2,7 @@ package;
 
 import flixel.FlxG;
 import flixel.FlxSprite;
+import flixel.group.FlxGroup;
 import flixel.group.FlxSpriteGroup;
 import flixel.graphics.frames.FlxBitmapFont;
 import flixel.text.FlxBitmapText;
@@ -10,13 +11,23 @@ import flixel.math.FlxPoint;
 import flixel.tweens.FlxTween;
 import flixel.tweens.FlxEase;
 
-class HUD extends FlxSpriteGroup {
+class HUD extends FlxGroup {
   var scoreText:FlxBitmapText;
   var toolbar:FlxSprite;
-  var thumbnailGroup:FlxSpriteGroup;
+  var bankbar:FlxSprite;
+  var thumbnailGroup:OptionGroup;
+
+  var toolbarTweenIn:FlxTween;
+  var toolbarTweenOut:FlxTween;
 
   var mode:String = "background";
   var index:Int = 0;
+
+  var stampGroup:OptionGroup;
+  var brushGroup:OptionGroup;
+  var backgroundGroup:OptionGroup;
+
+  var icons:FlxSpriteGroup;
 
   public function new():Void {
     super();
@@ -26,12 +37,12 @@ class HUD extends FlxSpriteGroup {
       new FlxPoint(16, 16)
     );
 
-    toolbar = new FlxSprite();
-    toolbar.y = FlxG.height - 74;
-    toolbar.loadGraphic("assets/images/ui/toolbars.png", true, 640, 74);
-    toolbar.animation.add("wiggle", [0, 1, 2], 8, true);
-    toolbar.animation.play("wiggle");
-    add(toolbar);
+    bankbar = new FlxSprite();
+    bankbar.y = FlxG.height - 74;
+    bankbar.loadGraphic("assets/images/ui/toolbars.png", true, 640, 74);
+    bankbar.animation.add("wiggle", [0, 1, 2], 8, true);
+    bankbar.animation.play("wiggle");
+    add(bankbar);
 
     toolbar = new FlxSprite();
     toolbar.angle = 180;
@@ -48,49 +59,110 @@ class HUD extends FlxSpriteGroup {
     scoreText.y = 4;
     // add(scoreText);
 
-    thumbnailGroup = new FlxSpriteGroup();
-
-    var backgroundThumbnails:Array<String> = PathHelper.imagesForPath(~/images\/backgrounds\/thumbs/);
-    var i = 0;
-    for (thumbnailPath in backgroundThumbnails) {
-      var thumbnail = new ThumbnailFrame(thumbnailPath);
-      thumbnail.x = 68 + ((i%6) * (thumbnail.width + 25));
-      thumbnail.y = FlxG.height - thumbnail.height;
-
-      thumbnailGroup.add(thumbnail);
-      i++;
-    }
-
-    for (i in 0...6) {
-      cast(thumbnailGroup.members[i], ThumbnailFrame).appear();
-    }
-
-    add(thumbnailGroup);
+    createIcons();
+    createGroups();
   }
 
   public override function update(elapsed:Float):Void {
     scoreText.text = "" + Reg.score;
 
-    if (FlxG.mouse.y < 24) {
-      FlxTween.tween(toolbar, { y: 0 }, 0.25, { ease: FlxEase.quadOut });
+    if (FlxG.mouse.y < toolbar.y + toolbar.height) {
+      if (toolbarTweenIn == null || !toolbarTweenIn.active) {
+        toolbarTweenIn = FlxTween.tween(toolbar, { y: 0 }, 0.25, { ease: FlxEase.quadOut });
+        if (toolbarTweenOut != null && toolbarTweenOut.active) {
+          toolbarTweenOut.cancel();
+        }
+      }
     } else {
-      FlxTween.tween(toolbar, { y: -40 }, 0.25, { ease: FlxEase.quadOut });
-    }
-
-    if (FlxG.keys.justPressed.SPACE) {
-      for (thumbnail in thumbnailGroup.members) {
-        cast(thumbnail, ThumbnailFrame).appear();
+      if (toolbarTweenOut == null || !toolbarTweenOut.active) {
+        toolbarTweenOut = FlxTween.tween(toolbar, { y: -40 }, 0.25, { ease: FlxEase.quadOut });
+        if (toolbarTweenIn != null && toolbarTweenIn.active) {
+          toolbarTweenIn.cancel();
+        }
       }
     }
 
     super.update(elapsed);
 
-    if (FlxG.mouse.y > FlxG.height - 74) {
-      FlxG.mouse.visible = true;
+    icons.y = toolbar.y;
+
+    if (FlxG.mouse.y > bankbar.y || FlxG.mouse.y < toolbar.y + toolbar.height) {
       Reg.stamp.visible = false;
     } else {
-      FlxG.mouse.visible = false;
       Reg.stamp.visible = true;
     }
+  }
+
+  private function createGroups():Void {
+    var thumbnailPaths:Array<String> = PathHelper.imagesForPath(~/images\/backgrounds\/thumbs/);
+    backgroundGroup = new OptionGroup(
+      thumbnailPaths,
+      "background",
+      FlxG.height - 68
+    );
+
+    thumbnailPaths = PathHelper.imagesForPath(~/images\/stamps\/thumbs/);
+    stampGroup = new OptionGroup(
+      thumbnailPaths,
+      "stamp",
+      FlxG.height - 68
+    );
+
+    thumbnailPaths = PathHelper.imagesForPath(~/images\/palette\/thumbs/);
+    brushGroup = new OptionGroup(
+      thumbnailPaths,
+      "stamp",
+      FlxG.height - 68
+    );
+
+    add(backgroundGroup);
+    add(brushGroup);
+    add(stampGroup);
+  }
+
+  private function createIcons():Void {
+    icons = new FlxSpriteGroup();
+
+    var thumbnail:ThumbnailFrame = new ThumbnailFrame("assets/images/ui/icons/bg.png");
+    thumbnail.x = 68;
+    thumbnail.clickCallback = function():Void {
+      stampGroup.hide();
+      brushGroup.hide();
+      backgroundGroup.show();
+    }
+    thumbnail.appear();
+    icons.add(thumbnail);
+
+    thumbnail = new ThumbnailFrame("assets/images/ui/icons/pencil.png");
+    thumbnail.x = 157;
+    thumbnail.clickCallback = function():Void {
+      stampGroup.hide();
+      brushGroup.show();
+      backgroundGroup.hide();
+      Reg.continuous = true;
+    }
+    thumbnail.appear();
+    icons.add(thumbnail);
+
+    thumbnail = new ThumbnailFrame("assets/images/ui/icons/stamp.png");
+    thumbnail.x = 246;
+    thumbnail.clickCallback = function():Void {
+      stampGroup.show();
+      brushGroup.hide();
+      backgroundGroup.hide();
+      Reg.continuous = false;
+    }
+    thumbnail.appear();
+    icons.add(thumbnail);
+
+    thumbnail = new ThumbnailFrame("assets/images/ui/icons/clear.png");
+    thumbnail.x = 335;
+    thumbnail.clickCallback = function():Void {
+      Reg.canvas.clear();
+    }
+    thumbnail.appear();
+    icons.add(thumbnail);
+
+    add(icons);
   }
 }

@@ -15,6 +15,8 @@ import flixel.util.FlxTimer;
 import flixel.util.FlxSpriteUtil;
 
 class ThumbnailFrame extends FlxSpriteGroup {
+  public var clickCallback:Void->Void;
+
   var frameSprite:FlxSprite;
   var thumbSprite:FlxSprite;
   var thumbSpriteMask:FlxSprite;
@@ -35,7 +37,7 @@ class ThumbnailFrame extends FlxSpriteGroup {
     var frames = frames.slice(0, 3);
 
     thumbOutput = new FlxSprite();
-    thumbOutput.makeGraphic(640, 64, 0, true);
+    thumbOutput.makeGraphic(640, 64, 0xffffffff, true);
 
     thumbSprite = new FlxSprite();
     thumbSprite.loadGraphic(thumbnailPath);
@@ -68,7 +70,7 @@ class ThumbnailFrame extends FlxSpriteGroup {
     frameSprite.angle = 45;
   }
 
-  public function appear():Void {
+  public function appear(delay:Float = 0):Void {
     frameSprite.scale.x = 0;
     frameSprite.scale.y = 0;
     frameSprite.angle = 45;
@@ -77,19 +79,23 @@ class ThumbnailFrame extends FlxSpriteGroup {
     thumbSprite.scale.y = 0;
     thumbSprite.angle = 45;
 
-    new FlxTimer().start(Reg.random.float(0, 0.25), function(t):Void {
-      frameScaleTween = FlxTween.tween(frameSprite.scale, { x: 1, y: 1 }, 0.5, { ease: FlxEase.elasticOut });
-      frameAngleTween = FlxTween.tween(frameSprite, { angle: 0 }, 0.5, { ease: FlxEase.elasticOut });
+    frameScaleTween = FlxTween.tween(frameSprite.scale, { x: 1, y: 1 }, 0.5, { ease: FlxEase.elasticOut, startDelay: delay });
+    frameAngleTween = FlxTween.tween(frameSprite, { angle: 0 }, 0.5, { ease: FlxEase.elasticOut, startDelay: delay });
 
-      thumbScaleTween = FlxTween.tween(thumbSprite.scale, { x: 1, y: 1 }, 0.5, { ease: FlxEase.elasticOut });
-      thumbAngleTween = FlxTween.tween(thumbSprite, { angle: 0 }, 0.5, { ease: FlxEase.elasticOut });
-    });
+    thumbScaleTween = FlxTween.tween(thumbSprite.scale, { x: 1, y: 1 }, 0.5, { ease: FlxEase.elasticOut, startDelay: delay });
+    thumbAngleTween = FlxTween.tween(thumbSprite, { angle: 0 }, 0.5, { ease: FlxEase.elasticOut, startDelay: delay });
+
+    visible = true;
+  }
+
+  public function disappear():Void {
+    visible = false;
   }
 
   public override function update(elapsed:Float):Void {
     super.update(elapsed);
 
-    if (frameScaleTween == null || !frameScaleTween.finished) { return; }
+    if (frameScaleTween == null || !frameScaleTween.finished || !visible) { return; }
 
     sinAmt += 7 * elapsed;
 
@@ -97,6 +103,9 @@ class ThumbnailFrame extends FlxSpriteGroup {
         FlxG.mouse.y > y && FlxG.mouse.y < y + height) {
       angle = 20 * Math.sin(sinAmt);
       scale.y = scale.x = 1 + (Math.cos(sinAmt) * 0.3);
+      if (FlxG.mouse.justPressed && clickCallback != null && visible) {
+        clickCallback();
+      }
     } else {
       angle = 0;
       scale.x = scale.y = 1;
