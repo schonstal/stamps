@@ -1,0 +1,3 @@
+#!/bin/bash
+
+ffmpeg -y -i $1.wav -strict -2 -acodec vorbis -ac 2 -aq 50 $1.ogg
