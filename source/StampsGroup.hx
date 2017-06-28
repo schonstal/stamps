@@ -30,6 +30,7 @@ class StampsGroup extends OptionGroup {
       "cloud",
       "cloudLarge",
       "pup",
+      "house",
       "basketball",
       "DunkColor",
       "BarkleyColor",
