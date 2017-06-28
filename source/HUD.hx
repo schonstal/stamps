@@ -94,26 +94,9 @@ class HUD extends FlxGroup {
   }
 
   private function createGroups():Void {
-    var thumbnailPaths:Array<String> = PathHelper.imagesForPath(~/images\/backgrounds\/thumbs/);
-    backgroundGroup = new OptionGroup(
-      thumbnailPaths,
-      "background",
-      FlxG.height - 68
-    );
-
-    thumbnailPaths = PathHelper.imagesForPath(~/images\/stamps\/thumbs/);
-    stampGroup = new OptionGroup(
-      thumbnailPaths,
-      "stamp",
-      FlxG.height - 68
-    );
-
-    thumbnailPaths = PathHelper.imagesForPath(~/images\/palette\/thumbs/);
-    brushGroup = new OptionGroup(
-      thumbnailPaths,
-      "stamp",
-      FlxG.height - 68
-    );
+    backgroundGroup = new BackgroundGroup();
+    stampGroup = new StampsGroup();
+    brushGroup = new BrushGroup();
 
     add(backgroundGroup);
     add(brushGroup);

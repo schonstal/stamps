@@ -93,8 +93,6 @@ class ThumbnailFrame extends FlxSpriteGroup {
   }
 
   public override function update(elapsed:Float):Void {
-    super.update(elapsed);
-
     if (frameScaleTween == null || !frameScaleTween.finished || !visible) { return; }
 
     sinAmt += 7 * elapsed;
@@ -110,5 +108,7 @@ class ThumbnailFrame extends FlxSpriteGroup {
       angle = 0;
       scale.x = scale.y = 1;
     }
+
+    super.update(elapsed);
   }
 }

@@ -14,6 +14,8 @@ import flixel.tweens.FlxEase;
 class OptionGroup extends FlxSpriteGroup {
   static inline var GROUP_SIZE:Int = 6;
 
+  public var clickCallback:String->Void;
+
   var groupIndex:Int = 0;
   var numGroups:Int = 0;
   var leftArrow:SelectionArrow;
@@ -21,10 +23,11 @@ class OptionGroup extends FlxSpriteGroup {
 
   var thumbnails:FlxSpriteGroup;
 
-  public function new(thumbnailPaths:Array<String>, type:String, Y:Float = 0):Void {
-    super(0, Y);
+  var prefix:String = "";
+  var thumbnailPaths:Array<String> = new Array<String>();
 
-    numGroups = Std.int((thumbnailPaths.length - 1) / GROUP_SIZE);
+  public function new():Void {
+    super(0, FlxG.height - 68);
 
     thumbnails = new FlxSpriteGroup();
     add(thumbnails);
@@ -41,7 +44,7 @@ class OptionGroup extends FlxSpriteGroup {
     };
     add(leftArrow);
 
-    rightArrow = new SelectionArrow(FlxG.width - 64, 8);
+    rightArrow = new SelectionArrow(FlxG.camera.width - 64, 8);
     rightArrow.visible = false;
     rightArrow.clickCallback = function():Void {
       if (groupIndex < numGroups) {
@@ -51,22 +54,17 @@ class OptionGroup extends FlxSpriteGroup {
       }
     };
     add(rightArrow);
+  }
 
+  function loadThumbnails():Void {
     var i = 0;
-    var regex = ~/thumbs\//;
+    numGroups = Std.int((thumbnailPaths.length - 1) / GROUP_SIZE);
 
     for (thumbnailPath in thumbnailPaths) {
-      var thumbnail = new ThumbnailFrame(thumbnailPath);
+      var thumbnail = new ThumbnailFrame('assets/images/$prefix/thumbs/$thumbnailPath.png');
       thumbnail.x = 68 + ((i%GROUP_SIZE) * (thumbnail.width + 25));
       thumbnail.clickCallback = function():Void {
-        var path = regex.replace(thumbnailPath, "");
-
-        // Avoiding reflection if possible
-        if (type == "background") {
-          Reg.background.loadGraphic(path);
-        } else {
-          Reg.stamp.loadGraphic(path);
-        }
+        clickCallback('assets/images/$prefix/$thumbnailPath.png');
       }
 
       thumbnails.add(thumbnail);
