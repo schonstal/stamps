@@ -22,7 +22,7 @@ class OptionBank extends FlxGroup {
     leftArrow.facing = FlxObject.LEFT;
     add(leftArrow);
 
-    rightArrow = new SelectionArrow(FlxG.width - 64, FlxG.height - 64);
+    rightArrow = new SelectionArrow(FlxG.camera.width - 64, FlxG.height - 64);
     add(rightArrow);
   }
 
