@@ -28,7 +28,7 @@ class PlayState extends FlxState {
     Reg.stamp.loadGraphic("assets/images/stamps/BarkleyColor.png");
 
     Reg.background = new FlxSprite();
-    Reg.background.loadGraphic(PathHelper.imagesForPath(~/images\/backgrounds\/[^\/]+.png/i)[0]);
+    Reg.background.loadGraphic("assets/images/backgrounds/notebook.png");
     canvas = new Canvas();
     Reg.canvas = canvas;
     hud = new HUD();
