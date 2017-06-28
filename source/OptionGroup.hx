@@ -44,7 +44,7 @@ class OptionGroup extends FlxSpriteGroup {
     };
     add(leftArrow);
 
-    rightArrow = new SelectionArrow(FlxG.camera.width - 64, 8);
+    rightArrow = new SelectionArrow(576, 8);
     rightArrow.visible = false;
     rightArrow.clickCallback = function():Void {
       if (groupIndex < numGroups) {
@@ -74,8 +74,8 @@ class OptionGroup extends FlxSpriteGroup {
   }
 
   public function show(direction:Int = 0):Void {
-    rightArrow.visible = (groupIndex <= 0);
-    leftArrow.visible = (groupIndex >= numGroups);
+    rightArrow.visible = (groupIndex < numGroups);
+    leftArrow.visible = (groupIndex > 0);
 
     var start:Int = GROUP_SIZE * groupIndex;
     var end:Int = start + GROUP_SIZE;

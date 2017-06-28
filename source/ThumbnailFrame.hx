@@ -99,14 +99,14 @@ class ThumbnailFrame extends FlxSpriteGroup {
 
     if (FlxG.mouse.x > x && FlxG.mouse.x < x + width &&
         FlxG.mouse.y > y && FlxG.mouse.y < y + height) {
-      angle = 20 * Math.sin(sinAmt);
-      scale.y = scale.x = 1 + (Math.cos(sinAmt) * 0.3);
+      //angle = 20 * Math.sin(sinAmt);
+      //scale.y = scale.x = 1 + (Math.cos(sinAmt) * 0.3);
       if (FlxG.mouse.justPressed && clickCallback != null && visible) {
         clickCallback();
       }
     } else {
-      angle = 0;
-      scale.x = scale.y = 1;
+      //angle = 0;
+      //scale.x = scale.y = 1;
     }
 
     super.update(elapsed);
