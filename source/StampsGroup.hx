@@ -12,6 +12,8 @@ import flixel.tweens.FlxTween;
 import flixel.tweens.FlxEase;
 
 class StampsGroup extends OptionGroup {
+  var lastStamp:String;
+
   public function new():Void {
     super();
 
@@ -39,6 +41,7 @@ class StampsGroup extends OptionGroup {
 
   function onClick(path:String):Void {
     Reg.continuous = false;
-    Reg.stamp.loadGraphic(path);
+    Reg.stamp.loadGraphic('assets/images/stamps/$path.png');
+    Reg.stampSound = FlxG.sound.play('assets/sounds/stamps/$path.ogg', 1, false, null, false);
   }
 }

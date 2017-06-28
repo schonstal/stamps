@@ -122,7 +122,6 @@ class HUD extends FlxGroup {
       stampGroup.hide();
       brushGroup.show();
       backgroundGroup.hide();
-      Reg.continuous = true;
     }
     thumbnail.appear();
     icons.add(thumbnail);
@@ -133,7 +132,6 @@ class HUD extends FlxGroup {
       stampGroup.show();
       brushGroup.hide();
       backgroundGroup.hide();
-      Reg.continuous = false;
     }
     thumbnail.appear();
     icons.add(thumbnail);

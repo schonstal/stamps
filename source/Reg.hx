@@ -3,6 +3,7 @@ package;
 import flixel.util.FlxSave;
 import flixel.math.FlxRandom;
 import flixel.FlxSprite;
+import flixel.system.FlxSound;
 
 class Reg {
   public static var pointService:PointService;
@@ -14,4 +15,6 @@ class Reg {
   public static var background:FlxSprite;
 
   public static var continuous:Bool = true;
+
+  public static var stampSound:FlxSound;
 }

@@ -64,7 +64,7 @@ class OptionGroup extends FlxSpriteGroup {
       var thumbnail = new ThumbnailFrame('assets/images/$prefix/thumbs/$thumbnailPath.png');
       thumbnail.x = 68 + ((i%GROUP_SIZE) * (thumbnail.width + 25));
       thumbnail.clickCallback = function():Void {
-        clickCallback('assets/images/$prefix/$thumbnailPath.png');
+        clickCallback(thumbnailPath);
       }
 
       thumbnails.add(thumbnail);

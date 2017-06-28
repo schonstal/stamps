@@ -34,6 +34,6 @@ class BackgroundGroup extends OptionGroup {
   }
 
   function onClick(path:String):Void {
-    Reg.background.loadGraphic(path);
+    Reg.background.loadGraphic('assets/images/backgrounds/$path.png');
   }
 }

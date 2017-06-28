@@ -3,14 +3,17 @@ package;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.math.FlxPoint;
+import flixel.system.FlxSound;
 
 class Canvas extends FlxSprite {
   var wasPainting:Bool = false;
   var lastPosition:FlxPoint = new FlxPoint(0, 0);
+  var drawingSound:FlxSound;
 
   public function new():Void {
     super();
     clear();
+    drawingSound = FlxG.sound.load("assets/sounds/drawing.ogg", 1, true);
   }
 
   public function clear():Void {
@@ -22,6 +25,7 @@ class Canvas extends FlxSprite {
 
     if (FlxG.mouse.pressed && Reg.stamp != null && Reg.continuous && Reg.stamp.visible) {
       stamp(Reg.stamp, Std.int(Reg.stamp.x), Std.int(Reg.stamp.y));
+      drawingSound.play();
 
       if(wasPainting == true) {
         var dx:Float = lastPosition.x - Reg.stamp.x;
@@ -41,10 +45,14 @@ class Canvas extends FlxSprite {
 
       wasPainting = true;
     } else {
+      drawingSound.stop();
       wasPainting = false;
     }
 
     if (FlxG.mouse.justPressed && Reg.stamp != null && !Reg.continuous && Reg.stamp.visible) {
+      if (Reg.stampSound != null) {
+        Reg.stampSound.play(true);
+      }
       stamp(Reg.stamp, Std.int(Reg.stamp.x), Std.int(Reg.stamp.y));
     }
 
