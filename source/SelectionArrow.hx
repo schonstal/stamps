@@ -29,6 +29,7 @@ class SelectionArrow extends FlxSprite {
         FlxG.mouse.y > y && FlxG.mouse.y < y + height) {
       color = 0xffcccccc; //2d92bc;
       if (FlxG.mouse.justPressed && clickCallback != null && visible) {
+        FlxG.sound.play("assets/sounds/select.ogg");
         clickCallback();
       }
     } else {

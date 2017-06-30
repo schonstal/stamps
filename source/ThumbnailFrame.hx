@@ -102,6 +102,7 @@ class ThumbnailFrame extends FlxSpriteGroup {
       //angle = 20 * Math.sin(sinAmt);
       //scale.y = scale.x = 1 + (Math.cos(sinAmt) * 0.3);
       if (FlxG.mouse.justPressed && clickCallback != null && visible) {
+        FlxG.sound.play("assets/sounds/select.ogg");
         clickCallback();
       }
     } else {
