@@ -17,7 +17,7 @@ class Canvas extends FlxSprite {
   }
 
   public function clear():Void {
-    makeGraphic(FlxG.width, FlxG.height, 0, true);
+    makeGraphic(640, 480, 0, true);
   }
 
   public override function update(elapsed:Float):Void {
