@@ -140,6 +140,7 @@ class HUD extends FlxGroup {
     thumbnail.x = 335;
     thumbnail.clickCallback = function():Void {
       Reg.canvas.clear();
+      FlxG.sound.play("assets/sounds/rejected.ogg");
     }
     thumbnail.appear();
     icons.add(thumbnail);
