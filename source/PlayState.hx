@@ -24,8 +24,9 @@ class PlayState extends FlxState {
     registerServices();
 
     Reg.stamp = new FlxSprite();
-    //Reg.stamp.makeGraphic(8, 8, 0xff33ff33);
-    Reg.stamp.loadGraphic("assets/images/stamps/BarkleyColor.png");
+    Reg.stamp.makeGraphic(8, 8, 0);
+    Reg.stamp.setFacingFlip(FlxObject.LEFT, true, false);
+    Reg.stamp.setFacingFlip(FlxObject.RIGHT, false, false);
 
     Reg.background = new FlxSprite();
     Reg.background.loadGraphic("assets/images/backgrounds/notebook.png");
@@ -41,7 +42,7 @@ class PlayState extends FlxState {
 
     FlxG.mouse.load("assets/images/ui/pointer.png");
 
-    FlxG.sound.playMusic("assets/music/music.ogg");
+    FlxG.sound.playMusic("assets/music/music.ogg", 0.8);
   }
 
   private function registerServices():Void {
@@ -63,6 +64,11 @@ class PlayState extends FlxState {
       var points:Int = Reg.random.int(2, 10) * 50;
       Reg.score += points;
       Reg.pointService.showPoints(Reg.stamp.x, Reg.stamp.y, points, 0xffaa22cc);
+    }
+
+    if (FlxG.keys.justPressed.SPACE) {
+      Reg.stamp.facing = (Reg.stamp.facing == FlxObject.LEFT ? FlxObject.RIGHT : FlxObject.LEFT);
+      FlxG.sound.play("assets/sounds/select.ogg");
     }
 
     recordHighScores();
