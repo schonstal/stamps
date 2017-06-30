@@ -40,8 +40,7 @@ class PlayState extends FlxState {
     // add(pointGroup);
     add(hud);
 
-    FlxG.camera.flash(0xffffffff, 0.5);
-    FlxG.sound.play("assets/sounds/cheer.ogg");
+    FlxG.camera.flash(0xff772b7d, 0.25);
     FlxG.sound.playMusic("assets/music/music.ogg", 0.8);
   }
 
