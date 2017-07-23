@@ -16,6 +16,7 @@ class HUD extends FlxGroup {
   var toolbar:FlxSprite;
   var bankbar:FlxSprite;
   var thumbnailGroup:OptionGroup;
+  var muteIndicator:FlxSprite;
 
   var toolbarTweenIn:FlxTween;
   var toolbarTweenOut:FlxTween;
@@ -91,6 +92,8 @@ class HUD extends FlxGroup {
     } else {
       Reg.stamp.visible = true;
     }
+
+    muteIndicator.visible = !FlxG.sound.muted;
   }
 
   private function createGroups():Void {
@@ -144,6 +147,19 @@ class HUD extends FlxGroup {
     }
     thumbnail.appear();
     icons.add(thumbnail);
+
+    thumbnail = new ThumbnailFrame("assets/images/ui/icons/audiobase.png");
+    thumbnail.x = 424;
+    thumbnail.clickCallback = function():Void {
+      FlxG.sound.muted = !FlxG.sound.muted;
+    }
+    thumbnail.appear();
+    icons.add(thumbnail);
+
+    muteIndicator = new FlxSprite();
+    muteIndicator.loadGraphic("assets/images/ui/icons/audioOn.png");
+    muteIndicator.x = thumbnail.x;
+    icons.add(muteIndicator);
 
     add(icons);
   }
