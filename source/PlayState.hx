@@ -15,6 +15,7 @@ class PlayState extends FlxState {
   var pointGroup:FlxSpriteGroup;
   var hud:HUD;
   var canvas:Canvas;
+  var flashSprite:FlxSprite;
 
   override public function create():Void {
     super.create();
@@ -40,7 +41,17 @@ class PlayState extends FlxState {
     // add(pointGroup);
     add(hud);
 
-    FlxG.camera.flash(0xff772b7d, 0.25);
+    flashSprite = new FlxSprite();
+    flashSprite.makeGraphic(640, 480, 0xff772b7d);
+    add(flashSprite);
+
+    FlxTween.tween(flashSprite, { alpha: 0 }, 0.25, {
+      ease: FlxEase.quadOut,
+      onComplete: function(t):Void {
+        flashSprite.visible = false;
+      }
+    });
+
     FlxG.sound.playMusic("assets/music/music.ogg", 0.8);
   }
 
