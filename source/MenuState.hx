@@ -53,8 +53,8 @@ class MenuState extends FlxState {
 
     FlxG.mouse.load("assets/images/ui/pointer.png");
 
-    FlxTween.tween(chuck, { y: 0 }, 1, {
-      ease: FlxEase.quadOut,
+    FlxTween.tween(chuck, { y: 0 }, 1.5, {
+      ease: FlxEase.bounceOut,
       onComplete: function(t):Void {
         FlxG.sound.play("assets/sounds/cheer.ogg");
         text.visible = true;
